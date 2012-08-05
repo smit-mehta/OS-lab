@@ -2,7 +2,7 @@
  * Asssignment 1 - Matrix Multiplication
  * Smit Mehta, CS10B024
  * Abhiram R,  CS10B0
- * Sahitya,    CS10B0
+ * Sahitya,    CS10B044
  * Karthik A,  CS10B0
  * Date of Submission : 7/8/12
  */
