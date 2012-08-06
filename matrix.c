@@ -20,7 +20,7 @@ int main()
 	int i, j, k;
 
 	// Initializing two operand matrices with random doubles.
-
+	srand(time(0));
 	for (i=0; i<10; i++)
 	{
 		for (j=0; j<20; j++)
