@@ -10,57 +10,45 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <float.h>
-
-double random_double();
 
 int main()
 {
-	double m1[10][20], m2[20][30], m3[10][30], m4[10][20];
+	long int m1[10][20], m2[20][30];
+	long int m3[10][30];
 	int i, j, k;
-
-
-	// Initializing two operand matrices with random doubles.
+	FILE *file;
+	file = fopen("output.txt","w");
+	// Initializing two operand matrices with random ints.
 	srand(time(0));
-
-	// Dumping randomly generated inputs and generated output in seperate files
-
-	FILE *matrix1 = NULL;
-	matrix1 = fopen("matrix1.dat", "wb");
-
-	FILE *matrix2 = NULL;
-	matrix2 = fopen("matrix2.dat", "wb");
-
-	FILE *matrix3 = NULL;
-	matrix3 = fopen("matrix3.dat", "wb");
 
 	// Generating inputs
 
+	fprintf(file, ";A Matrix Begins here\n");
 	for (i=0; i<10; i++)
 	{
 		for (j=0; j<20; j++)
 		{
-			m1[i][j] = random_double();
+			m1[i][j] = rand();
+			fprintf(file, "dd 0x%.8lx\n",m1[i][j]);
 		}
 	}
 
-	fwrite (m1, sizeof(double), 200, matrix1);
 
-	fclose(matrix1);
-
+	fprintf(file, ";B Matrix Begins here\n");
 	for (i=0; i<20; i++)
 	{
 		for (j=0; j<30; j++)
 		{
-			m2[i][j] = random_double();
+			m2[i][j] = rand();
+			fprintf(file, "dd 0x%.8lx\n",m2[i][j]);
 		}
 	}
 
-	fwrite (m2, sizeof(double), 600, matrix2);
 
-	fclose(matrix2);
-
+	fprintf(file, ";C Matrix Begins here\n");
 	// Matrix multiplication
+
+	int temp;
 
 	for (i=0; i<10; i++)
 	{
@@ -72,24 +60,13 @@ int main()
 			{
 				m3[i][j] += m1[i][k] * m2[k][j];
 			}
-		
-			printf ("%f ", m3[i][j]);
+			temp = m3[i][j]>>32;	
+			fprintf (file, "dd 0x%.8x\ndd 0x%.8x\n", temp, (int)m3[i][j]&0xFFFFFFFF);
 		}
 
-		printf("\n");
 	}
-
-	fwrite (m3, sizeof(double), 300, matrix3);
-
-	fclose(matrix3);
+	fclose(file);
 	
 	return 0;
 }
 
-// Generating random doubles between -50000 and +50000
-double random_double()
-{
-	double f = (double)rand() / RAND_MAX;
-	double random = -50000 + f * 50000 * 2;
-	return random;
-}
